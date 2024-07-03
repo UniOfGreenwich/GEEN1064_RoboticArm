@@ -66,7 +66,7 @@ Allowed values for each servo are as follows:
  * Eg Base to 60 degrees = **B60**
 
 The robotic arm is ready to receive commands when the led is ON.
-When the light is OFF when your command is being processed
+When the light is OFF when your command is being processed.
 
 ### Automation code 
 
