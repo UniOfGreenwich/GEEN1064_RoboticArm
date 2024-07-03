@@ -54,7 +54,7 @@ void serialListener()
   while (Serial.available())
   {
     delay(100);
-    c = Serial.read(); // reading the string sent by google voice
+    c = Serial.read(); // reading the serial buffer 
     if (c == '#')
     {
       break;
@@ -135,6 +135,13 @@ void processCommand()
     delay(1000);
     Command ="";
   }
+  // print Positions
+  else if(Command.startsWith("P"))
+  {
+    printPosition();
+    delay(1000);
+    Command ="";
+  }
   // Inform user to enter a legal command
   else
   {
@@ -144,7 +151,7 @@ void processCommand()
 }
 
 /**
- * Indetifies the right motor to move by searching the String Command and checking against the input motor
+ * Indetifies the correct motor to move by searching the String Command and checking against the input motor
  * @param l_Command is the Command received from the serail montior
  * @param l_motor is the motor indentifier that must match parent condition.
  * @returnparam angle is the new angle the identified motor will position to.
@@ -577,6 +584,22 @@ void initialise_RoboticArm()
 
 }
 
+
+void printPosition(){
+
+  Serial.print("B: ");
+  Serial.print(step_base);
+  Serial.print(" S: ");
+  Serial.print(step_shoulder);
+  Serial.print(" E: ");
+  Serial.print(step_elbow);
+  Serial.print(" V: ");
+  Serial.print(step_wrist_ver);
+  Serial.print(" R: ");
+  Serial.print(step_wrist_rot);
+  Serial.print(" G: ");
+  Serial.println(step_gripper);
+}
 /**
     This function, used only with the Braccio Shield V4 and greater,
     turn ON the Braccio softly and save Braccio from brokes.
