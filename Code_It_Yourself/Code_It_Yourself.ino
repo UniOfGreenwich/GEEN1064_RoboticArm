@@ -497,7 +497,7 @@ void RoboticArmBegin()
   delay(1000);
   gripper.write(10);
   delay(1000);
-  //Previous step motor position
+  //set step motor position
   step_base = 90;
   step_shoulder = 90;
   step_elbow = 180;
