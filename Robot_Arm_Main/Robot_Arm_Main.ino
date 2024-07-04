@@ -1,8 +1,8 @@
 /***********************************************************************************************************************
-  Sketch amalgamated by: Seb Blair
+  Author: Seb Blair
   Date: 10/06/2024
   Version: 1.0.0
-  Useage: To control the robotic arm autonomously 
+  Usage: To control the robotic arm autonomously 
           Once you calculated all of the movements via the manual sketch 
           you can use this one to automate the process.
           Consider one movement to all six servos in one go, so: 
@@ -49,7 +49,7 @@ void setup()
   digitalWrite(LED_BUILTIN, OUTPUT);
 
   // Initialization of RoboticArm safely
-  RoboticArmBegin();
+  roboticArmBegin();
 
     // Some instructions to screen
   Serial.println("######################## OPERATING INFORMATION #######################");
@@ -81,13 +81,13 @@ void loop()
   ******************************************************************************************************************/
   Serial.println("First Movement");
                   //(SD,  BA,   SH,   EL,   WV,  WR,  GR);
-  RoboticArmMovement(20,  180,  30,   10,   60,  90,  73);
+  roboticArmMovement(20,  180,  30,   10,   60,  90,  73);
   //Wait 1 second recommended for power to discharge from the servos 
   delay(1000);
 
   Serial.println("Second Movement");
                   //(SD,  BA,  SH,   EL,   WV,  WR,  GR);
-  RoboticArmMovement(20,  0,   120,  10,  100,  10,  10);
+  roboticArmMovement(20,  0,   120,  10,  100,  10,  10);
   // Wait 1 second recommended for power to discharge from the servos
   delay(1000);  
 }
@@ -109,7 +109,7 @@ void loop()
   @param vWrist_rot next wrist vertical servo motor degree
   @param vgripper next gripper servo motor degree
 */
-void RoboticArmMovement(int stepDelay, int vBase, int vShoulder, int vElbow, int vWrist_ver, int vWrist_rot, int vgripper)
+void roboticArmMovement(int stepDelay, int vBase, int vShoulder, int vElbow, int vWrist_ver, int vWrist_rot, int vgripper)
 {
   digitalWrite(LED_BUILTIN, LOW);
   // DO NOT CHANGE VALUES, this avoids dangerous positions for the Braccio
@@ -259,7 +259,7 @@ void RoboticArmMovement(int stepDelay, int vBase, int vShoulder, int vElbow, int
   You should set begin(SOFT_START_DISABLED) if you are using the Arm Robot shield V1.6
   SOFT_START_DISABLED disable the Braccio movements
 */
-void RoboticArmBegin()
+void roboticArmBegin()
 {
   //Calling Braccio.begin(SOFT_START_DISABLED) the Softstart is disabled and you can use the pin 12
   pinMode(SOFT_START_CONTROL_PIN, OUTPUT);
