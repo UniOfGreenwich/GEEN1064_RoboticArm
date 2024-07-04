@@ -1,8 +1,8 @@
 /***********************************************************************************************************************
-  Sketch amalgamated by: Seb Blair(CompEng0001)
+  Author: Seb Blair(CompEng0001)
   Date: 10/06/2024
   Version: 1.0.0
-  Useage: To control the robotic arm via each servo individually in one sketch
+  Usage: To control the robotic arm via each servo individually in one sketch
           Input a motor and desired angle into the serial montior and the robotic arm will move. 
           Follow on Serial montior instructions
           This sketch can be used in conjuction with the app in the repository 
@@ -12,7 +12,7 @@
 ***********************************************************************************************************************/
 
 /************************************************************************************************************************************
-  DO NOT CHANGE ANYTHING IN THE REGION BELOW (LINES 15 TO 559) OR THE CODE WILL NOT WORK AND WILL CAUSE YOU HOURS/DAYS OF DEBUGGING
+  DO NOT CHANGE ANYTHING IN THE REGION BELOW (LINES 15 TO 633) OR THE CODE WILL NOT WORK AND WILL CAUSE YOU HOURS/DAYS OF DEBUGGING
  ************************************************************************************************************************************/
 // Required library for Servo control
 #include <Servo.h>
@@ -38,7 +38,7 @@ String Command; // for saving c to a string
 
 void setup()
 {
-  initialise_RoboticArm();
+  initialiseRoboticArm();
 }
 
 void loop()
@@ -131,7 +131,7 @@ void processCommand()
   }
   else if(Command.startsWith("H"))
   {
-    HomePosition();
+    homePosition();
     delay(1000);
     Command ="";
   }
@@ -145,7 +145,7 @@ void processCommand()
   // Inform user to enter a legal command
   else
   {
-    Serial.println("Please enter a motor letter joined with an angle eg B60: ");
+    Serial.println("Please enter a motor letter joined with an angle eg B60 or HOM, or POS: ");
     Command = "";
   }
 }
@@ -163,11 +163,6 @@ int whichMotor(String l_Command,String l_Motor)
   String angleString = l_Command.substring(lastPos + 1, lengthCom);
   int angle = angleString.toInt();
 
-  //For Degbugging
-  //Serial.print("Angle in string = ");
-  //Serial.println(angleString);
-  //Serial.print("Angle as int = ");
-  //Serial.println(angle);
   return angle;
 }
 
@@ -462,7 +457,7 @@ void moveGripper(int stepDelay, int vgripper)
   }
 }
 
-void HomePosition()
+void homePosition()
 {
  //For each step motor this set up the initial degree
   base.write(90);
@@ -492,11 +487,8 @@ void HomePosition()
   Braccio initialization and set intial position
   Modifing this function you can set up the initial position of all the
   servo motors of Braccio
-  @param soft_start_level: default value is 0 (SOFT_START_DEFAULT)
-  You should set begin(SOFT_START_DISABLED) if you are using the Arm Robot shield V1.6
-  SOFT_START_DISABLED disable the Braccio movements
 */
-void RoboticArmBegin()
+void roboticArmBegin()
 {
   //Calling Braccio.begin(SOFT_START_DISABLED) the Softstart is disabled and you can use the pin 12
   pinMode(SOFT_START_CONTROL_PIN, OUTPUT);
@@ -534,7 +526,7 @@ void RoboticArmBegin()
 
 }
 
-void initialise_RoboticArm()
+void initialiseRoboticArm()
 {
   // Open serial for communication
   Serial.begin(9600);
@@ -547,9 +539,10 @@ void initialise_RoboticArm()
   delay(1000);
   Serial.print(".. 1 seconds");
   delay(1000);
-  Serial.println("...STAND BACK");
+  Serial.println("...STAND BACK MOVING TO HOME");
+  delay(1000);
   //initialization of RoboticArm safely
-  RoboticArmBegin();
+  roboticArmBegin();
   Serial.println("Initialisation complete!");
   Serial.println("");
   
@@ -568,6 +561,7 @@ void initialise_RoboticArm()
   Serial.println(" * Wrist Rotation = R and ALLOWED values are 0 to 180");
   Serial.println(" * Gripper        = G and ALLOWED values are 10 to 73");
   Serial.println(" * Home Position  = HOM");
+  Serial.println(" * Print Current Positions  = POS");
   Serial.println("");
   Serial.println(" * Eg Base to 60 degrees = B60");
   Serial.println("");
@@ -581,10 +575,11 @@ void initialise_RoboticArm()
 
   Serial.println("");
   Serial.println("In Home position: B90 S90 E180 V180 R90 G10");
-
 }
 
-
+/**
+    This function gets the lastest servo position provided by the user.
+*/
 void printPosition(){
 
   Serial.print("B: ");
@@ -600,6 +595,7 @@ void printPosition(){
   Serial.print(" G: ");
   Serial.println(step_gripper);
 }
+
 /**
     This function, used only with the Braccio Shield V4 and greater,
     turn ON the Braccio softly and save Braccio from brokes.

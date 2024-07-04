@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-  Sketch amalgamated by: Seb Blair(CompEng0001)
+  Author: Seb Blair(CompEng0001)
   Date: 10/06/2024
   Version: 1.0.0
   Useage: To control the robotic arm via each servo individually in one sketch
@@ -12,7 +12,7 @@
 ***********************************************************************************************************************/
 
 /************************************************************************************************************************************
-  DO NOT CHANGE ANYTHING IN THE REGION BELOW (LINES 15 TO 460 & 463 to 595) OR THE CODE WILL NOT WORK AND WILL CAUSE YOU HOURS/DAYS OF DEBUGGING
+  DO NOT CHANGE ANYTHING IN THE REGION BELOW (LINES 15 TO 465 & 475 to 607) OR THE CODE WILL NOT WORK AND WILL CAUSE YOU HOURS/DAYS OF DEBUGGING
  ************************************************************************************************************************************/
 // Required library for Servo control
 #include <Servo.h>
@@ -38,7 +38,7 @@ String Command; // for saving c to a string
 
 void setup()
 {
-  initialise_RoboticArm();
+  initialiseRoboticArm();
 }
 
 void loop()
@@ -131,7 +131,14 @@ void processCommand()
   }
   else if(Command.startsWith("H"))
   {
-    HomePosition();
+    homePosition();
+    delay(1000);
+    Command ="";
+  }
+  // print Positions
+  else if(Command.startsWith("P"))
+  {
+    printPosition();
     delay(1000);
     Command ="";
   }
@@ -456,7 +463,13 @@ void moveGripper(int stepDelay, int vgripper)
 }
 
 // Home function here!
-void HomePosition()
+void homePosition()
+{
+  Serial.println("Why did I not move?");
+}
+
+// POS function here!
+void printPosition()
 {
   Serial.println("Why did I not move?");
 }
@@ -469,7 +482,7 @@ void HomePosition()
   You should set begin(SOFT_START_DISABLED) if you are using the Arm Robot shield V1.6
   SOFT_START_DISABLED disable the Braccio movements
 */
-void RoboticArmBegin()
+void roboticArmBegin()
 {
   //Calling Braccio.begin(SOFT_START_DISABLED) the Softstart is disabled and you can use the pin 12
   pinMode(SOFT_START_CONTROL_PIN, OUTPUT);
@@ -507,7 +520,7 @@ void RoboticArmBegin()
 
 }
 
-void initialise_RoboticArm()
+void initialiseRoboticArm()
 {
   // Open serial for communication
   Serial.begin(9600);
@@ -522,7 +535,7 @@ void initialise_RoboticArm()
   delay(1000);
   Serial.println("...STAND BACK");
   //initialization of RoboticArm safely
-  RoboticArmBegin();
+  roboticArmBegin();
   Serial.println("Initialisation complete!");
   Serial.println("");
   
