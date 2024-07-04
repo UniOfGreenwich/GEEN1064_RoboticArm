@@ -1,12 +1,12 @@
 # Instructions
 
-So you have identified that something is not quite right with the `HomePosition()` function, as the  robotic arm didn’t move. You should have seen in the serial monitor the following output:
+So you have identified that something is not quite right with the `homePosition()` function, as the  robotic arm didn’t move. You should have seen in the serial monitor the following output:
 
 ```
 Why did I not move?
 ```
 
-In the Arduino IDE, navigate to **line 459** in the `Code_It_Yourself.ino`. You should see the `HomePosition()` function, delete code on **line 461**.
+In the Arduino IDE, navigate to **line 465** in the `Code_It_Yourself.ino`. You should see the `homePosition()` function, delete code on **line 468**.
 
 ```cpp
 ...
@@ -22,7 +22,6 @@ Re-write the `HomePosition()` function to look exactly like below:
 
 
 ```cpp
-...
 void HomePosition()
 {
   //For each step motor this set up the initial degree
@@ -50,3 +49,26 @@ void HomePosition()
 }
 ...
 ```
+
+You'll also notice that the `printPosition()` directly underneath has no body! We should fix that too.
+
+```cpp
+void printPosition(){
+
+  Serial.print("B: ");
+  Serial.print(step_base);
+  Serial.print(" S: ");
+  Serial.print(step_shoulder);
+  Serial.print(" E: ");
+  Serial.print(step_elbow);
+  Serial.print(" V: ");
+  Serial.print(step_wrist_ver);
+  Serial.print(" R: ");
+  Serial.print(step_wrist_rot);
+  Serial.print(" G: ");
+  Serial.println(step_gripper);
+}
+```
+
+You should verify and upload the code back to the board, then test the commands `HOM` and `POS` in the serial monitor. 
+
