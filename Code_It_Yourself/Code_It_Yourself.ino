@@ -471,7 +471,7 @@ void homePosition()
 // POS function here!
 void printPosition()
 {
-  Serial.println("Why did I not move?");
+  Serial.println("Why did I not not show my last position?");
 }
 
 /**
