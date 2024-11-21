@@ -1,23 +1,18 @@
-# GEEN1064 Robotic Arm Project
+# GEEN1064 Robotic Arm
+
 ## Introduction
 
-This repository is for the Year Zero Robotic Arm project, included is Arduino sketches, software and some documentation.
+This repository is for the Year Zero Robotic Arm project, included is Arduino sketches, software and documentation.
 
 **Sketches**
-   * [Code_It_Yourself](./Code_It_Yourself), **you should start here**, once the robotic arm has been constructed and connected to the PC and the mains supply. Then once you have attempted to control the robotic arm then -> [Missing Code](./Missing_Code.md)
    
-   * [Robot_Arm_Manual_Instructions](./Robot_Arm_Manual_Instructions), gives you manaul control over each servo individually and is designed to be used via the command line or the Android [Robotic Arm app](./App)
+   * [Robot_Arm_Manual_Instructions_via_serial](./Robot_Arm_Manual_Instructions_via_serial), gives you manaul control over each servo individually and is designed to be used via the command line.
+
    * [Robot_Arm_Main](./Robot_Arm_Main), is to be used to automate all planned movements you calculated using the latter sketch.
 
 **A Video on how to do download the project to get access the code in one place**
 
-[![](http://img.youtube.com/vi/nCR-zGrlY7E/0.jpg)](https://youtu.be/nCR-zGrlY7E "How to download the project and open the first sketch")
-
-**App**
-   * The [RoboticArm app](./App) has been downloaded on to the Android OS tablets supplied with this robotic arm, please note it is developed for Android only.
-     The App is available for you to download on your own device, but as this is open source you install it **at your own risk**, as you should only install from trustworthy sources.
-   * Four Screen shots have been included with the [RoboticArm app](./App) folder.
-   * Code is available to view as an image in the same folder as the [RoboticArm app](./App)
+[![](download.gif)](./download.gif "How to download the project and open the first sketch")
 
 **Specification** 
    * [Specification](./Specifications.md) - link for specification sheet, please read some useful information inside.
@@ -42,10 +37,9 @@ This repository is for the Year Zero Robotic Arm project, included is Arduino sk
 
 ## Operational Information 
 
+**Click the image to be redirected to a quick video of simple pick and place task**
 
-**Click the image to be redirected to a quick video of simple pick and place task, on youtube**
-
-   [![](http://img.youtube.com/vi/SHML6NhQB3I/0.jpg)](https://youtu.be/SHML6NhQB3I "Robotic Arm performing a pick and place action")
+   [![](example_1.gif)](./example_1.gif "Robotic Arm performing a pick and place action")
 
 ### Manual Code
 
@@ -70,16 +64,39 @@ When the light is OFF when your command is being processed.
 
 ### Automation code 
 
+The automated controls are a sequence of pre-programmed movements, there are two ways to achieve this under the current version `[2.1.5]`
+
+1. Indepenent motor control:
+   - `void moveBase(int stepDelay, int vBase);`
+   - `void moveShoulder(int stepDelay, int vShoulder);`
+   - `void moveElbow(int stepDelay, int vElbow);`
+   - `void moveWrist_Ver(int stepDelay, int vWrist_Ver);`
+   - `void moveWrist_Rot(int stepDelay, int vWrist_rot);`
+   - `void moveGripper(int stepDelay, int vgripper);`
+
+      For example to move the base servo:
+
+     - `moveBase(20,50); // moves the base to 50 degrees`
+
+2. Indepenent grouped motor control:
+    
+   - `void roboticArmMovement(int stepDelay, int vBase, int vShoulder, int vElbow, int vWrist_ver, int vWrist_rot, int vgripper)`
+   
+      For example to move to the following positions
+
+    - `roboticArmMovement(20, 0, 120, 10, 100, 10, 10); //(SD,  BA,  SH,   EL,   WV,  WR,  GR);`
+
    **ORDER OF OPERATION** Robotic Arm moves in this order:
 
     * base -> shoulder -> elbow -> wrist vertical -> wrist rotation -> gripper 
 
-   **Plan your movements accordingly**
+        **Plan your movements accordingly**
 
 ## Acknowledgements 
 
 * The sketch has been developed to use key functionality from [Braccio Robotic Arm](https://github.com/arduino-org/arduino-library-braccio) so students do not have to download the libraries. 
    * Further modification includes Serial I/O
+
 **PLEASE NOTE** that this is only to be used with the Braccio Shield V4 becasue the softstart function protects the servo motors and the junctions from damages
 
 **WARNING** 
